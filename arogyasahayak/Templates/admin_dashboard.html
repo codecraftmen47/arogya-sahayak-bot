@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArogyaSahayak - Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .stats-container { display: flex; gap: 20px; margin-bottom: 30px; }
+        .stat-card { border: 1px solid #ccc; padding: 15px; border-radius: 5px; text-align: center; min-width: 150px; }
+        .stat-number { font-size: 2em; font-weight: bold; color: #2c5aa0; }
+    </style>
+</head>
+<body>
+    <h1>ArogyaSahayak Admin Dashboard</h1>
+
+    <div class="stats-container">
+        <div class="stat-card">
+            <div>Active Users</div>
+            <div class="stat-number">{{ active_users }}</div>
+        </div>
+        <div class="stat-card">
+            <div>Messages Today</div>
+            <div class="stat-number">{{ messages_today }}</div>
+        </div>
+        <div class="stat-card">
+            <div>Accuracy Rate</div>
+            <div class="stat-number">82%</div>
+        </div>
+    </div>
+
+    <div>
+        <canvas id="usageChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('usageChart').getContext('2d');
+        const usageChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: '# of Messages',
+                    data: [120, 190, 300, 250, 200, 450, 380],
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

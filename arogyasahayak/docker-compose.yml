@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  rasa-core:
+    build: ./rasa
+    ports:
+      - "5005:5005"
+    volumes:
+      - ./rasa:/app
+    env_file:
+      - .env
+    command: ["run", "--enable-api", "--cors", "*", "--debug"]
+
+  rasa-actions:
+    build:
+      context: ./rasa/actions
+    ports:
+      - "5055:5055"
+    volumes:
+      - ./rasa/actions:/app/actions
+    env_file:
+      - .env
+
+  main-server:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - rasa-core
+      - redis
+      - postgres
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: arogya_db
+      POSTGRES_USER: arogya_user
+      POSTGRES_PASSWORD: arogya_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

@@ -1,0 +1,10 @@
+tracker_store:
+  type: Redis
+  url: "redis://redis:6379"
+
+lock_store:
+  type: Redis
+  url: "redis://redis:6379"
+
+action_endpoint:
+  url: "http://rasa-actions:5055/webhook"
